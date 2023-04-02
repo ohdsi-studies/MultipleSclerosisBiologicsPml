@@ -1,0 +1,287 @@
+
+
+---
+title: "| RESEARCH PROTOCOL\n| \n| Incidence of progressive multifocal leukoencephalopathy (PML) during Multiple Sclerosis (MS) biologic exposure \n"
+fontsize: 12pt
+geometry: margin=1in
+output:
+  bookdown::html_document2:
+    df_print: paged
+    toc: yes
+    toc_depth: 2
+    toc_float: yes
+    number_sections: yes
+    number_tables: yes
+    css: style.css
+  word_document:
+    reference_docx: ohdsi-protocol-style.docx
+  bookdown::pdf_document2:
+    keep_tex: yes
+    latex_engine: xelatex
+    md_extensions: +raw_attribute
+    number_sections: yes
+    includes:
+      before_body: title.tex
+header-includes:
+- \usepackage[numbers,sort&compress]{natbib}
+- \usepackage{booktabs}
+- \usepackage{longtable}
+- \usepackage{array}
+- \usepackage{multirow}
+- \usepackage{wrapfig}
+- \usepackage{float}
+- \usepackage{colortbl}
+- \usepackage{pdflscape}
+- \usepackage{tabu}
+- \usepackage{threeparttable}
+- \usepackage{threeparttablex}
+- \usepackage[normalem]{ulem}
+- \usepackage{makecell}
+- \usepackage{caption}
+- \usepackage{rotating}
+- \usepackage{multirow}
+- \usepackage{mwe,tikz}
+- \usepackage[percent]{overpic}
+- \usepackage{enumitem}
+- \usepackage{hyperref}
+- \newcolumntype{P}[1]{>{\raggedright\arraybackslash}p{#1}}
+- \newcommand{\footerDate}{`r params$date`}
+- \input{header.tex}
+longtable: yes
+mainfont: Arial
+params:
+  date: '28-Mar-2023'
+  version: 0.0.1
+subtitle: 'Version: `r params$version`'
+link-citations: yes
+---
+
+```{r setup, include=FALSE}
+
+knitr::opts_chunk$set(echo = TRUE, warning=FALSE)
+options(kableExtra.latex.load_packages = FALSE)
+library(kableExtra)
+library(dplyr)
+options(knitr.kable.NA = "")
+options(knitr.table.format = function() {
+  if (knitr::is_latex_output()) {
+    "latex"
+  } else if (knitr::is_html_output()) {
+    "html"
+  } else {
+    "pipe"
+  }
+})
+
+latex_table_font_size <- 8
+```
+
+# List of Abbreviations
+
+```{r abbreviations, echo=FALSE}
+abbreviations <- readr::read_delim(col_names = FALSE,  show_col_types = FALSE, delim = ":", trim_ws = TRUE, file = "
+CDM ;	Common Data Model
+DMTs;	Disease-Modifying Therapies
+EBV ;	Epstein–Barr virus
+JCV ;	John Cunningham Virus
+MRI ;	Magnetic resonance Imaging
+MS  ;	Multiple sclerosis 
+OMOP;	Observational Medical Outcomes Partnership
+OHDSI;Observational Health Data Science and Informatics
+PML  ;Progressive Multifocal Leukoencephalopathy
+RxNorm;	US-specific terminology that contains all medications available on the US market
+SNOMED;	Systematized Nomenclature of Medicine
+
+")
+
+tab <- kable(abbreviations, col.names = NULL, linesep = "", booktabs = TRUE)
+
+if (knitr::is_latex_output()) {
+  tab %>% kable_styling(latex_options = c("striped", "hold_position"), 
+                        font_size = latex_table_font_size)
+} else {
+  tab %>% kable_styling(bootstrap_options = "striped")
+}
+```
+
+\clearpage
+
+# Responsible Parties
+
+## Investigators
+
+```{r parties, echo=FALSE}
+parties <- readr::read_delim(col_names = TRUE,  show_col_types = FALSE, delim = ";", trim_ws = TRUE, file = "
+  Investigator; Institution/Affiliation
+  Thamir Alshammari *; College of Pharmacy, Almaarefa University, Riyadh, Saudi Arabia,
+")
+
+
+tab <- kable(parties, booktabs = TRUE, linesep = "") %>%
+  column_spec(1, width = "10em") %>%
+  column_spec(2, width = "35em") %>%
+  footnote(general = "* Principal Investigator", general_title = "")
+
+if (knitr::is_latex_output()) {
+  tab %>% kable_styling(latex_options = c("striped", "hold_position"),
+                        font_size = latex_table_font_size)
+} else {
+  tab %>% kable_styling(bootstrap_options = "striped")
+}
+```
+
+## Disclosures
+
+This study is undertaken within Observational Health Data Sciences and Informatics (OHDSI), an open collaboration.
+**TM** is a fictional character.
+
+\clearpage
+
+# Abstract
+
+**Background and Significance**: 
+
+**Study Aims**: 
+
+**Study Description**: 
+
+* **Population**: 
+
+* **Comparators**:
+  
+* **Outcomes**:
+  
+* **Design**: 
+
+* **Timeframe**: 
+
+\clearpage
+
+# Amendments and Updates
+
+
+# Milestones
+
+
+# Rationale and Background
+Multiple sclerosis (MS) is a chronic autoimmune disease of the central nervous system (CNS). A disorder characterized by inflammatory demyelination and axotomy, defined as severed terminal axonal structures that are pathological correlates of irreversible neurological damage (Dobson and Giovannoni 2019, McGinley et al., 2021). MS incidence and prevalence are increasing in both developing and developed countries, and it is considered from the most common non-traumatic disabling neurological disease that affects the young adult population (Dobson and Giovannoni 2019). In the United States only, there are around 900,000 affected by MS (McGinley et al., 2021). In 2020, the worldwide prevalence per 100,000 population [95% CI] of MS was 43.95 [43.90, 44.01], with the highest prevalence in Europe, 142.81 [142.53, 143.08] and the highest increase in the prevalence of MS from the year 2013 to 2020 occurred in north and south America countries (Walton et al., 2020).
+
+MS as pathogenesis is still not fully understood. It is a complex disease that involves inflammatory, genetic, immunological, and environmental factors lead to the development of MS. Low vitamin D levels, exposure to ultraviolet B, smoking, and Epstein–Barr virus (EBV) are the most common causes that associated with developing MS in affected patients. Furthermore, female gender, young adult (age between 20-30), family history, autoimmune diseases, cluster of human leukocyte antigen on a gene on chromosome 6p21, and northern European descent race are common risk factors for MS (Dobson and Giovannoni 2019, McGinley et al., 2021). 
+
+As clinical presentations, patients with MS could suffer from a range of signs and symptoms, including blurred vision with pain, weakness, impaired sensation, ataxia, limb paresthesias, abdominal or chest banding, vertigo, facial sensory loss, and many other presentations. As the progression of the disease, a few people with multiple sclerosis have a mild course with little or no disability, while others progress steadily and become more disabled over time (Filippi et al., 2018, McGinley et al., 2021). 
+
+There is no specific diagnostic tool for MS. However, imaging and laboratory data are used to diagnose patients with MS. Magnetic resonance Imaging (MRI) of the brain, and spinal cord is important to look at if there is any lesion in the central nervous system. MRI also helps to know the time of the development of new lesions. Another important supportive diagnosis method is testing the cerebrospinal fluid to look for oligoclonal immunoglobulin G or oligoclonal bands. These criteria are used in a known diagnosis algorithm called McDonald Criteria for diagnosing MS (McGinley et al., 2021).
+
+There is no cure therapy for MS. However, there are different approaches to treating patients with MS. The current treatment approaches are treating MS symptoms, treating the MS attack, and reducing the number of MS relapses (i.e., disease-modifying therapies “DMTs”). The major goal of current DMTs is to subside the disease by reducing inflammation, myelin damage, and relapse (Gholamzad et al., 2019).
+
+Many medications were tried as DMTs to treat patients with MS. These medications include corticosteroids, intravenous immunoglobulin, methotrexate, and mycophenolate mofetil. Nevertheless, Interferon beta-1 was the first DMT approved by the United States Food and Drug Administration (US FDA) in 1993 (McGinley et al., 2021). Following the approval of interferon beta-1b, several medications were approved by the FDA. The traditional injectable drugs are interferon beta-1a and glatiramer acetate. Furthermore, the approved oral medications are dimethyl fumarate, diroximel fumarate, monomethyl fumarate, teriflunomide, fingolimod, siponimod, ozanimod, ponesimod, and cladribine (Gholamzad et al., 2019, McGinley et al., 2021). Lastly, the high-efficacy infusion and injectable approved medications are mitoxantrone, natalizumab alemtuzumab, ocrelizumab, and ofatumumab. Several studies showed the efficacy of these medications in the treatment of MS. However, some safety concerns with some of these medications include bradyarrhythmia and atrioventricular blocks, liver injury, posterior reversible encephalopathy syndrome, macular edema, infections, and progressive multifocal leukoencephalopathy (PML) (McGinley et al., 2021, Simpson et al., 2021, Yang et al., 2022).
+
+PML is a rare but fatal opportunistic viral infection that affects the brain. It is believed that PML is caused by the John Cunningham virus (JCV). It usually occurs due to the reactivation of JCV in immunocompromised patients, and the cases of PML started to rise in the early 1980s, especially in those immunocompromised patients. Later, the number of cases was linked to immunosuppressant and immunomodulatory therapy use (Williamson and Berger 2017, Saji and Gupta 2023). The first case of PML was discovered in 2005 in a patient diagnosed with MS, and inflammatory bowel diseases were linked to the use of natalizumab. There were also cases of PML associated with other medications used to treat MS patients (Williamson and Berger 2017). 
+
+Unfortunately, there is no treatment for PML, and the current approach is to provide the patients with supportive care by treating the symptoms. However, removing the causative agent and treating the patients with supportive care could lead to a survival rate of 80% (Williamson and Berger 2017, Simpson et al., 2021, Yang et al., 2022).
+
+High-efficacy infusion and injectable biological medications have important role in the management of MS. However, there is a gap in quantifying some of these medications’ risk especially the rare adverse effects. Since the clinical trials are limited to detect such rare safety concern (i.e., PML) and spontaneous reporting system is only reporting signals and have several limitations to quantify this risk, there is a need to assess the risk of PML with the use of high-efficacy infusion and injectable biological medications in MS patients. 
+
+
+# Study Objectives
+The primary objective of this study is to describe the demographic and clinical characteristics of MS patients who are using high-efficacy infusion and injectable biological medications and developed the outcome of interest (i.e., PML). Furthermore, to estimate the incidence rate of PML among patients using high-efficacy infusion and injectable biological medications. As a secondary objective, we will estimate the incidence of PML with other DMTs. 
+
+# Research Methods
+This study is a multinational observational cohort study that: 
+A.	Describe the demographic and clinical characteristics among MS patients who are using high-efficacy infusion and injectable biological medications and developed the outcome of interest (i.e., PML) 
+B.	Estimate the incidence rate of PML among patients using high-efficacy infusion and injectable biological medications 
+C.	Estimate the incidence of PML with other DMTs (e.g., fingolimod, teriflunomide) 
+
+## Study Design
+The study is an observational cohort study based on routinely-collected health care data which has been mapped to the Observational Medical Outcomes Partnership (OMOP) Common Data Model (CDM). Cohorts of individuals with MS, will be identified. Characteristics of these individuals will be assessed in the periods preceding and at the index date and analysis of their treatments and outcomes following it
+
+## Data Sources
+The study will be conducted using data from real world data sources that have been mapped to the OMOP Common Data Model in collaboration with the Observational Health Data Sciences and Informatics (OHDSI) and European Health Data and Evidence Network (EHDEN) initiatives. The OMOP Common Data Model (https://github.com/OHDSI/CommonDataModel/wiki) includes a standard representation of health care trajectories (such as information related to drug utilization and condition occurrence), as well as common vocabularies for coding clinical concepts, and enables consistent application of analyses across multiple disparate data sources (Voss et al., 2015).
+
+
+
+## Study Population
+Target Cohort #1: Persons with MS will have:
+●	≥1 records of MS diagnosis and ≥1 prescription for MS high-efficacy infusion and injectable biological medications.
+
+
+Target Cohort #2: Persons with MS will have:
+●	≥1 records of MS diagnosis and ≥1 prescription for other DMTs.
+
+Study population: Patients diagnosed with MS (any type, see below) who meet one of the following criteria: 
+•	First ever exposure to high-efficacy infusion and injectable biological medications or other DMTs. 
+•	At least 365 days of observation time prior to the index date 
+•	No diagnosis of PML preceding the index date 
+
+Indext date is defined as first exposure to high-efficacy infusion and injectable biological medications or other DMTs. 
+Concept Name	Concept Id
+
+374919	Multiple Sclerosis
+4145049	Relapsing remitting multiple sclerosis 1
+
+37311816	Progressive multiple sclerosis
+
+4102337	Exacerbation of multiple sclerosis
+
+4137855	Secondary progressive multiple sclerosis
+
+4178929	Primary progressive multiple sclerosis
+
+4046108	Acute relapsing multiple sclerosis
+
+## Exposure Comparators
+Multiple sclerosis patients who are new users of one the following medications, mitoxantrone (concept ID=XXXXX), natalizumab (concept ID=735843),  alemtuzumab (concept ID=1312706), ocrelizumab (concept ID=1593457),  , and ofatumumab (concept ID=40167582). For comparison, MS patients who are newly using other DMTs will be included. These DMTs are dimethyl fumarate (concept ID=43526424), diroximel fumarate (concept ID=37497593), monomethyl fumarate (concept ID=XXXXXX),  teriflunomide (concept ID=42900584), fingolimod (concept ID=40226579), siponimod (concept ID=1510913), ozanimod (concept ID=37499437), ponesimod (concept ID=XXXXXX), and cladribine (concept ID=19054825). 
+
+## Outcomes {#outcomes}
+The outcome of interest is developing progressive multifocal leukoencephalopathy (concept ID=XXXXXX), following the index date.
+
+## Analysis
+
+# Sample Size and Study Power {#sample-size}
+The study package is designed to suppress any analyses which have less than 140 unique persons. This cut point was informed by a power calculation performed by the OHDSI Consortia to assess the computational cut point of when a cell count would be too small to merit additional subdivision within the target-stratum-feature combination. This means that each data owner will only generate results for target-stratum-feature pairs that meet this minimum threshold. 
+
+# Strengths and Limitations {#strengths-limitations}
+
+# Protection of Human Subjects
+The study uses only de-identified data. Confidentiality of patient records will be maintained at all times. Data custodians will remain in full control of executing the analysis and packaging results. There will be no transmission of patient-level data at any time during these analyses. Only aggregate statistics will be captured. Study packages will contain minimum cell count parameters to obscure any cells which fall below allowable reportable limits. All study reports will only contain aggregated data and will not identify individual patients or physicians. 
+
+# Management and Reporting of Adverse Events and Adverse Reactions
+
+# Plans for Disseminating and Communicating Study Results
+The results will be shared and discussed among study participants during the time of research. Study results will be posted on the OHDSI website (https://data.ohdsi.org/) after completion of the study. The results will also be presented at the OHDSI in-person or virtual events. Finally, we plan to publish this research as a scientific manuscript in a top-tier journal.
+\clearpage
+
+# References {-}
+
+Dobson, R. and G. Giovannoni, 2019. Multiple sclerosis - a review. Eur J Neurol. 26, 27-40. https://doi.org/10.1111/ene.13819
+
+Filippi, M., A. Bar-Or, F. Piehl, et al., 2018. Multiple sclerosis. Nat Rev Dis Primers. 4, 43. https://doi.org/10.1038/s41572-018-0041-4
+
+Gholamzad, M., M. Ebtekar, M. S. Ardestani, et al., 2019. A comprehensive review on the treatment approaches of multiple sclerosis: currently and in the future. Inflamm Res. 68, 25-38. https://doi.org/10.1007/s00011-018-1185-0
+
+McGinley, M. P., C. H. Goldschmidt and A. D. Rae-Grant, 2021. Diagnosis and Treatment of Multiple Sclerosis: A Review. JAMA. 325, 765-779. https://doi.org/10.1001/jama.2020.26858
+
+Saji, A. M. and V. Gupta, 2023. Progressive Multifocal Leukoencephalopathy. StatPearls. Treasure Island (FL).
+
+Simpson, A., E. M. Mowry and S. D. Newsome, 2021. Early Aggressive Treatment Approaches for Multiple Sclerosis. Curr Treat Options Neurol. 23, 19. https://doi.org/10.1007/s11940-021-00677-1
+
+Voss, E. A., R. Makadia, A. Matcho, et al., 2015. Feasibility and utility of applications of the common data model to multiple, disparate observational health databases. J Am Med Inform Assoc. 22, 553-564. https://doi.org/10.1093/jamia/ocu023
+
+Walton, C., R. King, L. Rechtman, et al., 2020. Rising prevalence of multiple sclerosis worldwide: Insights from the Atlas of MS, third edition. Mult Scler. 26, 1816-1821. https://doi.org/10.1177/1352458520970841
+
+Williamson, E. M. L. and J. R. Berger, 2017. Diagnosis and Treatment of Progressive Multifocal Leukoencephalopathy Associated with Multiple Sclerosis Therapies. Neurotherapeutics. 14, 961-973. https://doi.org/10.1007/s13311-017-0570-7
+
+Yang, J. H., T. Rempe, N. Whitmire, et al., 2022. Therapeutic Advances in Multiple Sclerosis. Front Neurol. 13, 824926. https://doi.org/10.3389/fneur.2022.824926
+
+\clearpage
+
+\centerline{\Huge Appendix}
+
+# (APPENDIX) Appendix {-}
+
+# Exposure Cohort Definitions
+
+
+# Outcome Cohort Definitions
+
+# Negative Control Concepts {#negative-controls}
