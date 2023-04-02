@@ -3,6 +3,8 @@ title: "| RESEARCH PROTOCOL\n| \n| Incidence of progressive multifocal leukoence
 fontsize: 12pt
 geometry: margin=1in
 output:
+  word_document:
+    reference_docx: ohdsi-protocol-style.docx
   bookdown::html_document2:
     df_print: paged
     toc: yes
@@ -11,8 +13,6 @@ output:
     number_sections: yes
     number_tables: yes
     css: style.css
-  word_document:
-    reference_docx: ohdsi-protocol-style.docx
   bookdown::pdf_document2:
     keep_tex: yes
     latex_engine: xelatex
