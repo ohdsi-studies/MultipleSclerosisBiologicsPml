@@ -1,5 +1,3 @@
-
-
 ---
 title: "| RESEARCH PROTOCOL\n| \n| Incidence of progressive multifocal leukoencephalopathy (PML) during Multiple Sclerosis (MS) biologic exposure \n"
 fontsize: 12pt
