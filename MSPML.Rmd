@@ -1,10 +1,13 @@
 ---
-title: "| RESEARCH PROTOCOL\n| \n| Incidence of progressive multifocal leukoencephalopathy (PML) during Multiple Sclerosis (MS) biologic exposure \n"
+title: "| RESEARCH PROTOCOL\n| \n| Incidence of progressive multifocal leukoencephalopathy
+  (PML) during Multiple Sclerosis (MS) biologic exposure \n"
 fontsize: 12pt
 geometry: margin=1in
 output:
-  word_document:
-    reference_docx: ohdsi-protocol-style.docx
+  html_document:
+    toc: yes
+    toc_depth: '2'
+    df_print: paged
   bookdown::html_document2:
     df_print: paged
     toc: yes
@@ -20,6 +23,8 @@ output:
     number_sections: yes
     includes:
       before_body: title.tex
+  word_document:
+    reference_docx: "ohdsi-protocol-style.docx"
 header-includes:
 - \usepackage[numbers,sort&compress]{natbib}
 - \usepackage{booktabs}
@@ -48,7 +53,7 @@ header-includes:
 longtable: yes
 mainfont: Arial
 params:
-  date: '28-Mar-2023'
+  date: "28-Mar-2023"
   version: 0.0.1
 subtitle: 'Version: `r params$version`'
 link-citations: yes
