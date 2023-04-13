@@ -4,10 +4,8 @@ title: "| RESEARCH PROTOCOL\n| \n| Incidence of progressive multifocal leukoence
 fontsize: 12pt
 geometry: margin=1in
 output:
-  html_document:
-    toc: yes
-    toc_depth: '2'
-    df_print: paged
+  word_document:
+    reference_docx: "ohdsi-protocol-style.docx"
   bookdown::html_document2:
     df_print: paged
     toc: yes
@@ -23,8 +21,10 @@ output:
     number_sections: yes
     includes:
       before_body: title.tex
-  word_document:
-    reference_docx: "ohdsi-protocol-style.docx"
+  html_document:
+    toc: yes
+    toc_depth: '2'
+    df_print: paged
 header-includes:
 - \usepackage[numbers,sort&compress]{natbib}
 - \usepackage{booktabs}
