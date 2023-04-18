@@ -1,6 +1,6 @@
 
 
-[Incidence of progressive multifocal leukoencephalopathy (PML) during Multiple Sclerosis (MS) biologic exposure]
+Incidence of progressive multifocal leukoencephalopathy (PML) during Multiple Sclerosis (MS) biologic exposure
 =============
 
 <img src="https://img.shields.io/badge/Study%20Status-Repo%20Created-lightgray.svg" alt="Study Status: Repo Created">
